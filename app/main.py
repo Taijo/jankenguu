@@ -6,6 +6,7 @@ from pydantic import BaseModel, validator
 
 app = FastAPI()
 
+
 POSSIBLE_HAND_VALUES = ("rock", "paper", "scissors")
 
 
@@ -29,27 +30,17 @@ def create_ai_hand():
 
 
 def calculate_result(player_hand: Hand, ai_hand: Hand) -> str:
-    """return 0 : a tie, 1 : player win or -1 player lose"""
-    if player_hand.myHand == ai_hand.myHand:
-        return 0
+    """3 trees of play possibilities : root is first hand, leaf is second hand
+    result equal RULES[root][leaf] -> 0 = tie / 1 = root win / -1 = root lose
+    return 0 = tie or 1 = player win or -1 = player lose"""
 
-    if player_hand.myHand == "rock":
-        if ai_hand.myHand == "paper":
-            return -1
-        elif ai_hand.myHand == "scissors":
-            return 1
+    RULES = {
+        "rock": {"rock": 0, "scissors": 1, "paper": -1},
+        "paper": {"rock": 1, "scissors": -1, "paper": 0},
+        "scissors": {"rock": -1, "scissors": 0, "paper": 1},
+    }
 
-    if player_hand.myHand == "paper":
-        if ai_hand.myHand == "scissors":
-            return -1
-        elif ai_hand.myHand == "rock":
-            return 1
-
-    if player_hand.myHand == "scissors":
-        if ai_hand.myHand == "rock":
-            return -1
-        elif ai_hand.myHand == "paper":
-            return 1
+    return RULES[player_hand.myHand][ai_hand.myHand]
 
 
 def choose_http_status_response_from_result(result: int) -> Constant:
