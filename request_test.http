@@ -1,10 +1,8 @@
-
+# HELLO
 GET http://localhost:8044/ HTTP/1.1
 
 
 ### TEST BAD VALUE FOR VALUE FOR HAND
-
-
 POST http://localhost:8044/play HTTP/1.1
 content-type: application/json
 
@@ -13,11 +11,33 @@ content-type: application/json
 }
 
 
-### TEST GOOD VALUE FOR HAND
-
+### TEST GOOD HAND VALUE : ROCK
 POST http://localhost:8044/play HTTP/1.1
 content-type: application/json
 
 {
     "myHand": "rock"
 }
+
+### TEST GOOD HAND VALUE : PAPER
+POST http://localhost:8044/play HTTP/1.1
+content-type: application/json
+
+{
+    "myHand": "paper"
+}
+
+### TEST GOOD HAND VALUE : SCISSORS
+POST http://localhost:8044/play HTTP/1.1
+content-type: application/json
+
+{
+    "myHand": "scissors"
+}
+
+### TEST GET RESULTS
+GET http://localhost:8044/results HTTP/1.1
+
+### TEST RESET GAME (DELETE PREVIOUS PLAYS)
+GET http://localhost:8044/reset HTTP/1.1
+
